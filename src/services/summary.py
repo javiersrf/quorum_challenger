@@ -21,9 +21,9 @@ def generate_legislators_summary(
             data[legislator_id]["sponsored_bills"] += 1
         elif vote_type == "2":
             data[legislator_id]["opposed_bills"] += 1
-
+    final_path = output + "legislators-support-oppose-count.csv"
     with open(
-        output + "legislators-support-oppose-count.csv",
+        final_path,
         "w",
         newline="",
         encoding="utf-8",
@@ -38,7 +38,7 @@ def generate_legislators_summary(
         writer.writeheader()
         for row in data.values():
             writer.writerow(row)
-    return list(data.values())
+    return final_path
 
 
 def generate_bill_summary(
@@ -66,10 +66,8 @@ def generate_bill_summary(
             data[bill_id]["sponsored_bills"] += 1
         elif vote_type == "2":
             data[bill_id]["opposed_bills"] += 1
-
-    with open(
-        output + "bills-support-oppose-count.csv", "w", newline="", encoding="utf-8"
-    ) as csvfile:
+    final_path = output + "bills-support-oppose-count.csv"
+    with open(final_path, "w", newline="", encoding="utf-8") as csvfile:
         fieldnames = [
             "bills_id",
             "bills_title",
@@ -81,4 +79,4 @@ def generate_bill_summary(
         writer.writeheader()
         for row in data.values():
             writer.writerow(row)
-    return list(data.values())
+    return final_path
