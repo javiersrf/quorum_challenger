@@ -1,4 +1,3 @@
-import click
 import csv
 
 
@@ -13,9 +12,11 @@ def generate_legislators_summary(
             "sponsored_bills": 0,
             "opposed_bills": 0,
         }
-    for vote_result in vote_results["vote_id"]:
-        legislator_id = vote_result["legislator_id"]
-        vote_type = vote_result["vote_type"]
+    for idx, _ in enumerate(vote_results["vote_id"]):
+        legislator_id = vote_results["legislator_id"][idx]
+        vote_type = vote_results["vote_type"][idx]
+        if legislator_id not in data:
+            continue
         if vote_type == 1:
             data[legislator_id]["sponsored_bills"] += 1
         elif vote_type == 2:
@@ -38,7 +39,9 @@ def generate_bill_summary(
     bills: dict[str, list], votes: dict[str, list], vote_results: dict[str, list]
 ):
     data = {}
-    votes_bill_map = {vote["id"]: vote["bill_id"] for vote in votes["id"]}
+    votes_bill_map = {}
+    for idx, vote in enumerate(votes["id"]):
+        votes_bill_map[vote] = votes["bill_id"][idx]
     for idx, bill in enumerate(bills["id"]):
         data[bill] = {
             "bills_id": bill,
@@ -47,15 +50,15 @@ def generate_bill_summary(
             "sponsored_bills": 0,
             "opposed_bills": 0,
         }
-    for vote_result in vote_results["vote_id"]:
-        bill_id = votes_bill_map[vote_result["vote_id"]]
-        vote_type = vote_result["vote_type"]
+    for idx, vote_result in enumerate(vote_results["vote_id"]):
+        bill_id = votes_bill_map[vote_result]
+        vote_type = vote_results["vote_type"][idx]
         if vote_type == 1:
             data[bill_id]["sponsored_bills"] += 1
         elif vote_type == 2:
             data[bill_id]["opposed_bills"] += 1
 
-    with open("bills_summary.csv", "w", newline="") as csvfile:
+    with open("bills_summary.csv", "w", newline="", encoding="utf-8") as csvfile:
         fieldnames = [
             "bills_id",
             "bills_title",

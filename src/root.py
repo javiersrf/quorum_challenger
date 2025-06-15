@@ -33,3 +33,6 @@ def root(legislators, bills, votes, vote_results):
     vote_results = parse_file(
         vote_results, expected_schema=["id", "legislator_id", "vote_id", "vote_type"]
     )
+
+    generate_legislators_summary(legislators=legislators, vote_results=vote_results)
+    generate_bill_summary(vote_results=vote_results, bills=bills, votes=votes)
