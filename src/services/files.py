@@ -28,6 +28,6 @@ def parse_file(path: str, expected_schema: list[str] | None = None) -> dict[str,
                 hint=f"Row length mismatch in {path}. Expected {len(headers)}, got {len(row)}.",
             )
         for header, value in zip(headers, row):
-            final_data[header].append(value)
+            final_data[header].append(str(value))
 
     return final_data
