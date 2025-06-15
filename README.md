@@ -14,6 +14,7 @@ uv pip install -r requirements.txt
 
 # Run the CLI
 uv run main.py --help
+
 ```
 ### Example
 
