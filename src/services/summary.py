@@ -6,7 +6,6 @@ def generate_legislators_summary(
 ):
     data = {}
     for idx, legislator in enumerate(legislators["id"]):
-        print("[1]Processing legislator: ", legislator, type(legislator))
         data[legislator] = {
             "legislator_id": legislator,
             "legislator_name": legislators["name"][idx],
@@ -15,10 +14,8 @@ def generate_legislators_summary(
         }
     for idx, _ in enumerate(vote_results["vote_id"]):
         legislator_id = vote_results["legislator_id"][idx]
-        print("[2]Processing legislator: ", legislator_id, type(legislator_id))
         vote_type = vote_results["vote_type"][idx]
         if legislator_id not in data:
-            print(f"Legislator ID {legislator_id} not found in data, skipping...")
             continue
         if vote_type == "1":
             data[legislator_id]["sponsored_bills"] += 1
@@ -26,7 +23,10 @@ def generate_legislators_summary(
             data[legislator_id]["opposed_bills"] += 1
 
     with open(
-        output + "legislators_summary.csv", "w", newline="", encoding="utf-8"
+        output + "legislators-support-oppose-count.csv",
+        "w",
+        newline="",
+        encoding="utf-8",
     ) as csvfile:
         fieldnames = [
             "legislator_id",
@@ -68,7 +68,7 @@ def generate_bill_summary(
             data[bill_id]["opposed_bills"] += 1
 
     with open(
-        output + "bills_summary.csv", "w", newline="", encoding="utf-8"
+        output + "bills-support-oppose-count.csv", "w", newline="", encoding="utf-8"
     ) as csvfile:
         fieldnames = [
             "bills_id",

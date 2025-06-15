@@ -23,5 +23,10 @@ uv run main.py \
     --legislators "/path/to/data/legislators.csv" \
     --bills "/path/to/data/bills.csv" \
     --votes "/path/to/data/votes.csv" \
-    --vote_results "/path/to/data/vote_results.csv"
+    --vote_results "/path/to/data/vote_results.csv" \ 
+    --output "/path/to/output/"
 ```
+
+The final result will be placed on output dir like:
+ - "/path/to/output/legislators-support-oppose-count.csv"
+ - "/path/to/output/bills-support-oppose-count.csv"
